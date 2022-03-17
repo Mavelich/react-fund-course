@@ -1,11 +1,8 @@
 import React, {useState} from 'react';
-import Count from './components/Counter';
-import ClassCounter from './components/ClassCounter';
 import './styles/App.css';
-import PostItem from './components/PostItem';
 import PostList from './components/PostList';
-import MyButton from './components/UI/button/MyButton';
-import MyInput from './components/UI/input/MyInput';
+import PostForm from './components/PostForm';
+import MySelect from './components/UI/select/MySelect';
 
 function App() {
     const [posts, setPosts] = useState([
@@ -15,27 +12,32 @@ function App() {
         {id: 4, title: 'Python', body: 'Description'}
     ])
 
-    const [title, setTitle] = useState('');
+    const createPost = (newPost) => {
+        setPosts([...posts, newPost])
+    }
 
-    const addNewPost = (e) => {
-        e.preventDefault();
-        console.log(title);
+    // Получаем post из дочернего элемента
+    const removePost = (post) => {
+        setPosts(posts.filter(p => p.id !== post.id))
     }
 
     return (
         <div className='App'>
-            <form>
-                {/* Управляемый компонент */}
-                <MyInput
-                    value={title}
-                    onChange={e => setTitle(e.target.value)}
-                    type='text'
-                    placeholder='Название поста'
-                />
-                <MyInput type='text' placeholder='Описание поста' />
-                <MyButton onClick={addNewPost}>Создать пост</MyButton>
-            </form>
-            <PostList posts={posts} title='Список постов' />
+            <PostForm create={createPost} />
+            <hr style={{margin: '15px 0'}} />
+            <MySelect
+                defaultValue='Сортировка'
+                options={[
+                    {value: 'title', name: 'По названию'},
+                    {value: 'body', name: 'По описанию'}
+                ]}
+            />
+            {posts.length !== 0
+                ? <PostList remove={removePost} posts={posts} title='Список постов' />
+                : <h1 style={{textAlign: 'center'}}>
+                    Посты не найдены!
+                </h1>
+            }
         </div>
     )
 }
