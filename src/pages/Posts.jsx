@@ -2,7 +2,6 @@ import React, {useState, useMemo, useEffect} from 'react';
 import '../styles/App.css';
 import PostList from '../components/PostList';
 import PostForm from '../components/PostForm';
-import MyInput from '../components/UI/input/MyInput';
 import PostFilter from '../components/PostFilter';
 import MyModal from '../components/UI/modal/MyModal';
 import MyButton from '../components/UI/button/MyButton';
